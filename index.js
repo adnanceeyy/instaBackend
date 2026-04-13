@@ -21,8 +21,12 @@ app.get('/', (req, res) => {
   res.send('CaptionCraft AI API is running');
 });
 
-mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/captioncraft').then(() => console.log('MongoDB connected'))
-  .catch(err => console.error(err));
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err.message);
+    console.log('Ensure you have MONGO_URI set in Render environment variables.');
+  });
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
