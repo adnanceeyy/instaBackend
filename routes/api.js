@@ -257,8 +257,7 @@ const generateAIResponse = async (topic, platform, tone, language, audience, goa
         titles: (langContent.titles || []).slice(0, 3),
         viralScore: Math.floor(Math.random() * 10) + 90
       });
-    }, 1500);
-  });
+    });
 };
 
 router.post('/generate', async (req, res) => {
@@ -286,7 +285,7 @@ router.post('/save', async (req, res) => {
 
 router.get('/history', async (req, res) => {
   try {
-    const history = await Caption.find().sort({ createdAt: -1 });
+    const history = await Caption.find().sort({ createdAt: -1 }).limit(20);
     res.json(history);
   } catch (error) {
     res.status(500).json({ error: 'Failed to fetch history' });

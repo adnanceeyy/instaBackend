@@ -4,15 +4,27 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const path = require('path');
+const compression = require('compression');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(compression()); // Compress all responses
 app.use(cors());
 app.use(helmet());
-app.use(morgan('dev'));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 app.use(express.json());
+
+// Performance middleware: Cache-Control for API responses
+app.use((req, res, next) => {
+  if (req.method === 'GET') {
+    res.set('Cache-Control', 'public, max-age=60'); // Cache GET requests for 1 minute
+  }
+  next();
+});
 
 // Routes
 app.use('/api', require('./routes/api'));
