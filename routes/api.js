@@ -83,8 +83,7 @@ router.post('/hashtags', async (req, res) => {
 // Improved helper to simulate complex AI generation from "outside source"
 const generateAIResponse = async (topic, platform, tone, language, audience, goal, keywords) => {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      const allContent = {
+    const allContent = {
         'English': {
           hooks: [
             `Stop scrolling! You NEED to see this! 🛑😱`,
